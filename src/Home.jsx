@@ -26,6 +26,8 @@ const Home = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const apiUrl = process.env.REACT_APP_API_URL
+  let rsvpLink
+  let roomLink
 
   useEffect(() => {
     const animateText = () => {
@@ -151,11 +153,21 @@ const Home = () => {
           {created && (
             <>
               <p className="text-white text-lg -mt-2 text-center max-w-[90vw]">
-                Your RSVP form Link === {`${window.location.origin}/rsvp/${roomName}`}
+                Your RSVP form Link === {rsvpLink = `${window.location.origin}/rsvp/${roomName}`}
               </p>
+              <button 
+              className="bg-white hover:bg-gray-200 font-bold py-[5px] md:py-[7px] mt-2 md:mt-4"
+              onClick={() => {navigator.clipboard.writeText(rsvpLink); alert("copied")}}>
+                Copy RSVP Link
+              </button>
               <p className="text-white text-lg -mt-2 text-center max-w-[90vw]">
-                your Call Room link === {`${window.location.origin}/room/${roomName}?roomID=${randomID(6)}`}
+                your Call Room link === {roomLink = `${window.location.origin}/room/${roomName}?roomID=${randomID(6)}`}
               </p>
+              <button 
+                className="bg-white hover:bg-gray-200 font-bold py-[5px] md:py-[7px] mt-2 md:mt-4"
+                onClick={() => {navigator.clipboard.writeText(roomLink); alert("copied")}}>
+                  Copy Room Link
+                </button>
             </>
           )}
         </div>

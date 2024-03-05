@@ -59,6 +59,7 @@ const Home = () => {
     res = await axios.post(`${apiUrl}/store-password`, {
       channelName: roomName,
       password: roomPassword,
+      creator: publicKey?.toString(),
     })
     res = await axios.post(`${apiUrl}/create-db`, {
       channelName: roomName,

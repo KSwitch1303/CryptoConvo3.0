@@ -23,6 +23,7 @@ const Home = () => {
   const [isPending, setIsPending] = useState(false);
   const { publicKey } = useWallet();
   const [created, setCreated] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const apiUrl = process.env.REACT_APP_API_URL
 
@@ -107,7 +108,9 @@ const Home = () => {
               className="bg-transparent border-2 border-white rounded-full w-full md:max-w-[30rem] h-[3rem] md:h-[4rem] px-3 md:px-6 mb-4 focus:outline-none focus:ring-4 focus:ring-purple-500 focus:ring-opacity-50"
             />
             <input
-              type="text"
+              type={
+                showPassword ? "text" : "password"
+              }
               placeholder="Enter Room Password"
               value={roomPassword}
               onChange={(e) => {
@@ -120,6 +123,17 @@ const Home = () => {
               required
               className="bg-transparent border-2 border-white rounded-full w-full md:max-w-[30rem] h-[3rem] md:h-[4rem] px-3 md:px-6 mb-4 focus:outline-none focus:ring-4 focus:ring-purple-500 focus:ring-opacity-50"
             />
+            <div>
+              <label for="check">Show Password: </label>
+              <input
+                  id="check"
+                  type="checkbox"
+                  value={showPassword}
+                  onChange={() =>
+                      setShowPassword((prev) => !prev)
+                  }
+              />
+            </div>
             {publicKey ? (
               <button
                 type="submit"

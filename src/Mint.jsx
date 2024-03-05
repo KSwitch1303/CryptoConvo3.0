@@ -17,7 +17,7 @@ const Mint = () => {
   const [minted, setMinted] = useState(false);
   const { publicKey, sendTransaction  } = useWallet();
 
-     const { connection } = useConnection();
+  const { connection } = useConnection();
 
     // Replace the endpoint with the devnet endpoint
   // const devnetEndpoint = 'https://api.mainnet.solana.com';

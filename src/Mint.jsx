@@ -7,9 +7,6 @@ import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { promises } from "stream";
 const apiUrl = process.env.REACT_APP_API_URL;
 
-const quicknode_rpc =  'https://dry-dawn-rain.solana-mainnet.quiknode.pro/8debd76070395100e5f5f7a1058550b679bb9aec/';
-const endpoint = quicknode_rpc;
-
 const Mint = () => {
   const [image, setImage] = useState("");
   const [name, setName] = useState("");

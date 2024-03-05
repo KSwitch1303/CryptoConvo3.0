@@ -76,6 +76,7 @@ const RsvpForm = () => {
               }
               placeholder="Enter Room Password"
               value={roomPassword}
+              disabled={isPending}
               onChange={(e) => {
                 if (/^[A-Za-z0-9!@#$%^&*()]+$/.test(e.target.value) || e.target.value === "") {
                   setRoomPassword(e.target.value);

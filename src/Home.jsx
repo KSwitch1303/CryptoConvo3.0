@@ -97,6 +97,7 @@ const Home = () => {
               type="text"
               placeholder="Enter Room Name"
               value={roomName}
+              disabled={isPending}
               onChange={(e) => {
                 if (/^[A-Za-z\s]+$/.test(e.target.value) || e.target.value === "") {
                   setRoomName(e.target.value);
@@ -113,6 +114,7 @@ const Home = () => {
               }
               placeholder="Enter Room Password"
               value={roomPassword}
+              disabled={isPending}
               onChange={(e) => {
                 if (/^[A-Za-z0-9!@#$%^&*()]+$/.test(e.target.value) || e.target.value === "") {
                   setRoomPassword(e.target.value);

@@ -1,4 +1,4 @@
-import { Route, Routes} from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Home from "./Home";
 import Room from "./Room";
 import Navbar from "./components/Navbar";
@@ -6,7 +6,7 @@ import Mint from "./Mint";
 import * as web3 from "@solana/web3.js";
 import {
   ConnectionProvider,
-  WalletProvider
+  WalletProvider,
 } from "@solana/wallet-adapter-react";
 
 import * as walletAdapter from "@solana/wallet-adapter-wallets";
@@ -16,17 +16,17 @@ import { useMemo } from "react";
 import RsvpForm from "./RsvpForm";
 
 // const endpoint = web3.clusterApiUrl("devnet");
-const quicknode_rpc = process.env.REACT_APP_ENDPOINT
-const endpoint = quicknode_rpc
+const quicknode_rpc = process.env.REACT_APP_ENDPOINT;
+const endpoint = quicknode_rpc;
 // const wallets = [new walletAdapterWallets.PhantomWalletAdapter()];
 
 function App() {
   const wallets = useMemo(
     () => [
       new walletAdapter.PhantomWalletAdapter(),
-      new walletAdapter.SolflareWalletAdapter()
+      new walletAdapter.SolflareWalletAdapter(),
     ],
-    []
+    [],
   );
   return (
     <ConnectionProvider endpoint={endpoint}>

@@ -1,7 +1,5 @@
 import logo from "../assets/CryptoConvo.png";
 import { useNavigate, useLocation } from "react-router-dom";
-// import "./Navbar.css";
-
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import "@solana/wallet-adapter-react-ui/styles.css";
 import { useEffect, useState } from "react";
@@ -20,11 +18,11 @@ const Navbar = () => {
     }
   };
 
-  const { publicKey } = wallet.useWallet()
+  const { publicKey } = wallet.useWallet();
 
   useEffect(() => {
     if (!publicKey && connected === true) {
-      navigate('/')
+      navigate("/");
       window.location.reload();
     }
   }, [publicKey]);
@@ -34,33 +32,38 @@ const Navbar = () => {
       setConnected(true);
     }
   }, [publicKey]);
-  
-  return (
-    <div className="bg-black/90 shadow-lg flex justify-between items-center px-4 md:max-w-[100vw] mx-auto h-[10vh]">
-      {/* Left */}
-      <div className="flex items-center">
-        <div className="relative">
-          <img
-            src={logo}
-            alt="Crypto Convo"
-            className="h-12 w-auto animate-pulse"
-          />
-        </div>
-      </div>
 
-      {/* Right */}
-      <div className="flex items-center text-white text-bo">
-        {location.pathname === "/" ? (
-          <button onClick={handleButtonClick} className="hover:text-purple-400">
-            Mint
-          </button>
-        ) : (
-          <button className="hover:text-blue-500">
-            <a href="/">Home</a>
-          </button>
-        )}
-        <div className="ml-4">
-          <WalletMultiButton className="text-sm" />
+  return (
+    <div className="bg-gray-900 shadow-lg sticky top-0 z-50">
+      <div className="container mx-auto px-4 py-3 flex justify-between items-center">
+        {/* Left */}
+        <div className="flex items-center">
+          <div className="relative">
+            <img
+              src={logo}
+              alt="Crypto Convo"
+              className="h-12 w-auto animate-pulse"
+            />
+          </div>
+        </div>
+
+        {/* Right */}
+        <div className="flex items-center text-white">
+          {location.pathname === "/" ? (
+            <button
+              onClick={handleButtonClick}
+              className="hover:text-purple-400 text-lg font-medium"
+            >
+              Mint
+            </button>
+          ) : (
+            <button className="hover:text-blue-500 text-lg font-medium">
+              <a href="/">Home</a>
+            </button>
+          )}
+          <div className="ml-4">
+            <WalletMultiButton className="text-sm" />
+          </div>
         </div>
       </div>
     </div>

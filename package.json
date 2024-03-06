@@ -12,6 +12,7 @@
     "axios": "^1.6.7",
     "browserify-zlib": "^0.2.0",
     "crypto": "npm:crypto-browserify",
+    "framer-motion": "^11.0.8",
     "loader-utils": "3.2.1",
     "path-browserify": "^1.0.1",
     "react": "^18.2.0",

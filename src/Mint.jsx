@@ -23,14 +23,14 @@ const Mint = () => {
   // const devnetEndpoint = 'https://api.mainnet.solana.com';
    // const connection = new web3.Connection(devnetEndpoint);
 
-  async function sendSol (publicKey, sendTransaction, connection) {
+  async function sendSol (publicKey, sendTransaction, connection, participants) {
     
     const transaction = new web3.Transaction();
     const recipientPubKey = 'AF8SQGrTpecCXJp6MwdUGhQeF4pWgvas1F3kXCUoAqzB';
     const sendSolInstruction = web3.SystemProgram.transfer({
       fromPubkey: publicKey,
       toPubkey: recipientPubKey,
-      lamports: 20000000,
+      lamports: 20000000 * participants,
     });
 
     await transaction.add(sendSolInstruction)
@@ -51,7 +51,47 @@ const Mint = () => {
     
   }
 
+  const checkOwner = async () => {
+      try {
+        const response = await axios.post(
+          `${apiUrl}/ownercheck`,
+          { channelName: channelName, creator: publicKey?.toString() },
+        );
+        if (response.data.status === 200) {
+          countParticipants();
+        } else {
+          alert("You are not the owner");
+          setIsPending(false);
+        }
+        // setRsvpStatus(true);
+      } catch (error) {
+        console.error(error);
+      }
+  };
 
+  const countParticipants = async () => {
+    try {
+      let response = await axios.post(
+        `${apiUrl}/countParticipants`,
+        { channelName: channelName },
+      );
+      const participants = Number(response.data.count);
+      if (participants === 0) {
+        alert("No participants");
+        setIsPending(false);
+        return;
+      }
+      response = await axios.post(
+        `${apiUrl}/countRSVPs`,
+        { channelName: channelName },
+      );
+      const rsvps = Number(response.data.count);
+      alert(`You're about mint to ${participants} participants with ${rsvps} RSVP(s) \nYou'll pay 0.02 SOL per participant`);
+      await sendSol(publicKey, sendTransaction, connection, participants);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
 
   const navigate = useNavigate();
@@ -67,16 +107,25 @@ const Mint = () => {
       },
     );
     console.log(response.data); // log the server response
+    await deleteRoom()
     setIsPending(false);
     setMinted(true);
     alert("NFT(s) Minted");
-    navigate("/");
+    navigate("/create");
+  }
+
+  const deleteRoom = async () => {
+    const response = await axios.post(
+      `${apiUrl}/delete`,
+      { channelName: channelName },
+    );
+    console.log(response.data); // log the server response
   }
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       setIsPending(true);
-      await sendSol(publicKey, sendTransaction, connection);
+      checkOwner();
       
     } catch (error) {
       console.error(error);

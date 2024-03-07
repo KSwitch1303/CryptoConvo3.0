@@ -126,7 +126,6 @@ const Mint = () => {
     try {
       setIsPending(true);
       checkOwner();
-      
     } catch (error) {
       console.error(error);
     }

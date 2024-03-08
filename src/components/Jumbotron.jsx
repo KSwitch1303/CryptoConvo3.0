@@ -22,37 +22,43 @@ const Jumbotron = () => {
   }, []); // Run effect only once on component mount
 
   return (
-    <div className="bg-gradient-to-br from-gray-900 to-gray-800 py-16 md:py-24">
+    <div className="bg-gradient-to-br from-gray-900 to-gray-800 py-12 md:py-20">
       <div className="container mx-auto px-4">
         {isVisible && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center justify-center">
             <div className="text-center md:text-left md:mr-8">
-              <h1 className="text-4xl md:text-5xl font-semibold text-white leading-tight mb-4">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-white leading-tight mb-4">
                 {isFirstText ? (
                   <span>
                     Changing the way we{" "}
-                    <span className="text-blue-400">call</span>
+                    <span className="text-blue-400 block text-center md:inline-block md:ml-0 md:pl-2">
+                      call
+                    </span>
                   </span>
                 ) : (
                   <span>
                     Changing the way we{" "}
-                    <span className="text-green-400">reward</span>
+                    <span className="text-green-400 block text-center md:inline-block md:ml-0 md:pl-2">
+                      reward
+                    </span>
                   </span>
-                )}
+                )}{" "}
               </h1>
-              <p className="max-w-lg mx-auto text-lg md:text-xl text-gray-300">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              <p className="max-w-lg mx-auto text-lg md:text-base font-semibold lg:text-xl text-gray-200 mb-6">
+                Empowering seamless, conferencing with POAP Cnfts - Turning
+                every call into a rewarding experience.
               </p>
-              {/* style a button for me */}
               <button
-                className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg mt-4"
+                className="relative flex items-center justify-center text-white hover:before:bg-purple-500 h-[50px] md:w-60 w-full overflow-hidden border border-gray-700 bg-transparent px-3 text-purple-500 shadow-2xl transition-all rounded-md before:absolute before:bottom-0 before:left-0 before:top-0 before:z-0 before:h-full before:w-0 before:bg-purple-500 before:transition-all before:duration-500 hover:text-white hover:shadow-purple-lg hover:before:left-0 hover:before:w-full"
+                style={{ margin: "auto" }}
                 onClick={() => navigate("/create")}
               >
-                Start your experience
+                <span className="relative z-10 text-sm md:text-base font-semibold">
+                  Start Your Journey
+                </span>
               </button>
             </div>
-            <div className="w-full flex justify-end">
+            <div className="w-full flex justify-center md:justify-end">
               <img
                 src={
                   isCallText
@@ -60,7 +66,7 @@ const Jumbotron = () => {
                     : "https://imgur.com/X88jDcJ.jpg"
                 }
                 alt="Crypto Convo"
-                className="max-w-[50%] md:max-w-full rounded-lg shadow-lg"
+                className="max-w-[70%] md:max-w-full rounded-lg shadow-lg"
               />
             </div>
           </div>

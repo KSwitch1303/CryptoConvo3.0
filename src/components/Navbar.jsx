@@ -44,7 +44,10 @@ const Navbar = () => {
               alt="Crypto Convo"
               className="h-12 w-auto animate-pulse cursor-pointer"
               onClick={() => {
-                if (location.pathname === "/create" || location.pathname === "/mint") {
+                if (
+                  location.pathname === "/create" ||
+                  location.pathname === "/mint"
+                ) {
                   navigate("/");
                 }
               }}
@@ -63,7 +66,7 @@ const Navbar = () => {
             </button>
           ) : (
             <button className="hover:text-blue-500 text-lg font-medium">
-              <a href="/create">Home</a>
+              <a href="/create">Host</a>
             </button>
           )}
           <div className="ml-4">

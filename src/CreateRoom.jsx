@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import axios from "axios";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 
 function randomID(len) {
   let result = "";
   if (result) return result;
-  var chars = "12345qwertyuiopasdfgh67890jklmnbvcxzMNBVCZXASDQWERTYHGFUIOLKJP",
-    maxPos = chars.length,
+  var chars = "12345qwertyuiopasdfgh67890jklmnbvcxzMNBVCZXASDQWERTYHGFUIOLKJP";
+  var maxPos = chars.length,
     i;
   len = len || 5;
   for (i = 0; i < len; i++) {
@@ -15,6 +15,7 @@ function randomID(len) {
   }
   return result;
 }
+
 const CreateRoom = () => {
   const [roomName, setRoomName] = useState("");
   const [roomPassword, setRoomPassword] = useState("");
@@ -22,26 +23,9 @@ const CreateRoom = () => {
   const { publicKey } = useWallet();
   const [created, setCreated] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate();
   const apiUrl = process.env.REACT_APP_API_URL;
   let rsvpLink;
   let roomLink;
-
-  useEffect(() => {
-    const animateText = () => {
-      const text =
-        "Empowering seamless conferencing with PoAP cNFTs – turning every call into a rewarding experience";
-      let index = 0;
-      let timer = setInterval(() => {
-        setTypingText(text.slice(0, index));
-        index++;
-        if (index > text.length) clearInterval(timer);
-      }, 50);
-    };
-    animateText();
-  }, []);
-
-  const [typingText, setTypingText] = useState("");
 
   const submitCode = async (e) => {
     e.preventDefault();
@@ -71,124 +55,154 @@ const CreateRoom = () => {
     // navigate(`/rsvp/${roomName}`);
   };
 
-  return ( 
-    <div className="box">
-        {/* Hero */}
-        <div className="relative h-screen">
-          {/* Overlay */}
-          <div className="absolute h-full w-full flex overflow-hidden bg-black/60"></div>
-          {/* Hero Info */}
-          <div className="lg:flex lg:pt-20 flex-col items-center justify-center relative z-10 px-6 md:max-w-[90vw] mx-auto">
-            {/* Main */}
-            <div className="flex flex-col items-center justify-center pb-8">
-              <h1 className="text-4xl md:text-5xl text-white font-bold pt-12 mb-4 text-center animate-fadeIn">
-                Crypto Convo
-              </h1>
-              <p className="text-white text-lg -mt-2 text-center max-w-[90vw]">
-                {typingText}
-              </p>
-            </div>
+  return (
+    <div className="min-h-screen bg-gray-900 flex flex-col justify-center items-center py-12 sm:px-6 lg:px-8">
+      <div className="sm:w-full sm:max-w-md">
+        <h2 className="mt-6 text-3xl font-extrabold text-white text-center">
+          Host a Meeting
+        </h2>
+      </div>
 
-            {/* Enter Code */}
-            {created ? null : (
-              <form
-                onSubmit={submitCode}
-                className="text-white md:pt-12 flex flex-col items-center justify-center"
-              >
-                <input
-                  type="text"
-                  placeholder="Enter Room Name"
-                  value={roomName}
-                  disabled={isPending}
-                  onChange={(e) => {
-                    if (
-                      /^[A-Za-z\s]+$/.test(e.target.value) ||
-                      e.target.value === ""
-                    ) {
-                      setRoomName(e.target.value);
-                    } else {
-                      alert("Only alphabets are allowed");
-                    }
-                  }}
-                  required
-                  className="bg-transparent border-2 border-white rounded-full w-full md:max-w-[30rem] h-[3rem] md:h-[4rem] px-3 md:px-6 mb-4 focus:outline-none focus:ring-4 focus:ring-purple-500 focus:ring-opacity-50"
-                />
-                <input
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Enter Room Password"
-                  value={roomPassword}
-                  disabled={isPending}
-                  onChange={(e) => {
-                    if (
-                      /^[A-Za-z0-9!@#$%^&*()]+$/.test(e.target.value) ||
-                      e.target.value === ""
-                    ) {
-                      setRoomPassword(e.target.value);
-                    } else {
-                      alert("Invalid Character");
-                    }
-                  }}
-                  required
-                  className="bg-transparent border-2 border-white rounded-full w-full md:max-w-[30rem] h-[3rem] md:h-[4rem] px-3 md:px-6 mb-4 focus:outline-none focus:ring-4 focus:ring-purple-500 focus:ring-opacity-50"
-                />
-                <div>
-                  <label>Show Password: </label>
+      <div className="mt-8 w-full sm:w-full md:w-[30rem] lg:max-w-md px-4">
+        <div className="bg-gray-800 shadow-md rounded-lg px-8 pt-6 pb-8 mb-4">
+          {!created ? (
+            <form onSubmit={submitCode}>
+              <div>
+                <label
+                  htmlFor="room-name"
+                  className="block text-gray-300 text-sm font-bold mb-2 mt-4"
+                >
+                  Room Name
+                </label>
+                <div className="mt-1 relative rounded-md shadow-sm">
                   <input
-                    id="check"
-                    type="checkbox"
-                    value={showPassword}
-                    onChange={() => setShowPassword((prev) => !prev)}
+                    id="room-name"
+                    name="room-name"
+                    type="text"
+                    autoComplete="room-name"
+                    value={roomName}
+                    disabled={isPending}
+                    onChange={(e) => setRoomName(e.target.value)}
+                    required
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   />
                 </div>
+              </div>
+
+              <div>
+                <label
+                  htmlFor="password"
+                  className="block text-gray-300 text-sm font-bold mb-2 mt-4"
+                >
+                  Password
+                </label>
+                <div className="mt-1 relative rounded-md shadow-sm">
+                  <input
+                    id="password"
+                    name="password"
+                    type={showPassword ? "text" : "password"}
+                    autoComplete="current-password"
+                    value={roomPassword}
+                    disabled={isPending}
+                    onChange={(e) => setRoomPassword(e.target.value)}
+                    required
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    className="absolute inset-y-0 right-0 px-3 flex items-center text-gray-400 focus:outline-none"
+                  >
+                    {showPassword ? <FiEyeOff /> : <FiEye />}
+                  </button>
+                </div>
+              </div>
+
+              <div>
                 {publicKey ? (
                   <button
                     type="submit"
-                    className="bg-blue-500 hover:bg-blue-400 duration-100 ease-out font-bold w-full md:max-w-[30rem] rounded-full py-[5px] md:py-[7px] mt-2 md:mt-4"
+                    className="relative flex items-center justify-center text-white hover:before:bg-purple-500 h-[50px] md:w-60 w-full overflow-hidden border border-gray-700 bg-transparent px-3 text-black-500 shadow-2xl transition-all rounded-md before:absolute before:bottom-0 before:left-0 before:top-0 before:z-0 before:h-full before:w-0 before:bg-purple-500 before:transition-all before:duration-500 hover:text-white hover:shadow-purple-lg hover:before:left-0 hover:before:w-full"
+                    style={{ marginTop: "2rem" }}
                     disabled={isPending}
                   >
-                    {isPending ? "Creating" : "Create Channel"}
+                    {isPending ? (
+                      <>
+                        <svg
+                          className="animate-spin h-5 w-5 mr-3 text-white"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                          ></circle>
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8V2C5.373 2 2 5.373 2 10h2zm16 0a8 8 0 01-8 8v2c4.627 0 8-3.373 8-8h-2zm-8 8a8 8 0 01-8-8H2c0 4.627 3.373 8 8 8v-2zm8-8a8 8 0 018 8h2c0-4.627-3.373-8-8-8v2z"
+                          ></path>
+                        </svg>
+                        <span className="relative z-10 text-sm md:text-base font-semibold">
+                          Creating
+                        </span>
+                      </>
+                    ) : (
+                      <span className="relative z-10 text-sm md:text-base font-semibold">
+                        Create Channel
+                      </span>
+                    )}
                   </button>
                 ) : (
-                  <p className="text-red-500">Please Connect Wallet</p>
+                  <p className="text-red-500 mt-4 text-center">
+                    Please Connect Wallet
+                  </p>
                 )}
-              </form>
-            )}
-            {created && (
-              <>
-                <p className="text-white text-lg -mt-2 text-center max-w-[90vw]">
-                  Your RSVP form Link ==={" "}
-                  {(rsvpLink = `${window.location.origin}/rsvp/${roomName}`)}
-                </p>
-                <button
-                  className="bg-white hover:bg-gray-200 font-bold py-[5px] md:py-[7px] mt-2 md:mt-4"
-                  onClick={() => {
-                    navigator.clipboard.writeText(rsvpLink);
-                    alert("copied");
-                  }}
-                >
-                  Copy RSVP Link
-                </button>
-                <p className="text-white text-lg -mt-2 text-center max-w-[90vw]">
-                  your Call Room link ==={" "}
-                  {
-                    (roomLink = `${window.location.origin}/room/${roomName}?roomID=${randomID(6)}`)
-                  }
-                </p>
-                <button
-                  className="bg-white hover:bg-gray-200 font-bold py-[5px] md:py-[7px] mt-2 md:mt-4"
-                  onClick={() => {
-                    navigator.clipboard.writeText(roomLink);
-                    alert("copied");
-                  }}
-                >
-                  Copy Room Link
-                </button>
-              </>
-            )}
-          </div>
+              </div>
+            </form>
+          ) : (
+            <div className="mt-6">
+              <p className="text-lg text-gray-400">
+                Your RSVP form Link:{" "}
+                {(rsvpLink = `${window.location.origin}/rsvp/${roomName}`)}
+              </p>
+              <button
+                className="mt-4 bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded"
+                onClick={() => {
+                  navigator.clipboard.writeText(rsvpLink);
+                  alert("copied");
+                }}
+              >
+                Copy RSVP Link
+              </button>
+              <p className="text-lg text-gray-400 mt-6">
+                Your Call Room Link:{" "}
+                {
+                  (roomLink = `${window.location.origin}/room/${roomName}?roomID=${randomID(
+                    6,
+                  )}`)
+                }
+              </p>
+              <button
+                className="mt-4 bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded"
+                onClick={() => {
+                  navigator.clipboard.writeText(roomLink);
+                  alert("copied");
+                }}
+              >
+                Copy Room Link
+              </button>
+            </div>
+          )}
         </div>
       </div>
-   );
-}
- 
+    </div>
+  );
+};
+
 export default CreateRoom;

@@ -56,7 +56,7 @@ const CreateRoom = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 flex flex-col justify-center items-center py-12 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-900 flex flex-col justify-center items-center p-4">
       <div className="sm:w-full sm:max-w-md">
         <h2 className="mt-6 text-3xl font-extrabold text-white text-center">
           Host a Meeting

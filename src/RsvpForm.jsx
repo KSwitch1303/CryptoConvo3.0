@@ -3,7 +3,7 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { HiEye, HiEyeOff } from "react-icons/hi";
-import { HiOutlineRefresh } from "react-icons/hi"; // Import refresh icon
+import { HiOutlineRefresh } from "react-icons/hi";
 const apiUrl = process.env.REACT_APP_API_URL;
 
 const RsvpForm = () => {

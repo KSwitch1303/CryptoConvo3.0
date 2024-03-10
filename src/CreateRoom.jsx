@@ -24,9 +24,9 @@ const CreateRoom = () => {
   const [created, setCreated] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const apiUrl = process.env.REACT_APP_API_URL;
-  let rsvpLink;
-  let roomLink;
-
+  const [rsvpLink, setRsvpLink] = useState("");
+  const [roomLink, setRoomLink] = useState("");
+  let tempRoomlink, tempRsvpLink, rnd;
   const submitCode = async (e) => {
     e.preventDefault();
     setIsPending(true);
@@ -50,9 +50,24 @@ const CreateRoom = () => {
       publicKey: publicKey?.toString(),
       channelName: roomName,
     });
+    rnd =randomID(6)
+    setRsvpLink(`${window.location.origin}/rsvp/${roomName}`);
+    setRoomLink(`${window.location.origin}/room/${roomName}?roomID=${rnd}`);
+    tempRsvpLink = `${window.location.origin}/rsvp/${roomName}`
+    tempRoomlink = `${window.location.origin}/room/${roomName}?roomID=${rnd}`;
+    storeRoomLinks();
     setIsPending(false);
     setCreated(true);
     // navigate(`/rsvp/${roomName}`);
+  };
+
+  const storeRoomLinks = async () => {
+    await axios.post(`${apiUrl}/store-links`, {
+      RSVPlink: tempRsvpLink.toString(),
+      roomLink: tempRoomlink.toString(),
+      roomName: roomName,
+      owner: publicKey?.toString(),
+    });
   };
 
   return (
@@ -169,7 +184,7 @@ const CreateRoom = () => {
             <div className="mt-6">
               <p className="text-lg text-gray-400">
                 Your RSVP form Link:{" "}
-                {(rsvpLink = `${window.location.origin}/rsvp/${roomName}`)}
+                {(rsvpLink)}
               </p>
               <button
                 className="mt-4 bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded"
@@ -183,9 +198,7 @@ const CreateRoom = () => {
               <p className="text-lg text-gray-400 mt-6">
                 Your Call Room Link:{" "}
                 {
-                  (roomLink = `${window.location.origin}/room/${roomName}?roomID=${randomID(
-                    6,
-                  )}`)
+                  (roomLink)
                 }
               </p>
               <button

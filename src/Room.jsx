@@ -1,10 +1,14 @@
 import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt";
-import { ZegoSuperBoardManager } from "zego-superboard-web";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+
+import { UserContext } from "./contexts/UserContext";
+
+
 const apiUrl = process.env.REACT_APP_API_URL;
+
 
 function randomID(len) {
   let result = "";
@@ -26,7 +30,7 @@ export function getUrlParams(url = window.location.href) {
 
 export default function Room() {
   const roomID = getUrlParams().get("roomID") || randomID(6);
-
+  const {userName, setDisabled} = useContext(UserContext);
   let myMeeting = async (element) => {
     // generate Kit Token
     const appID = 1427065858;
@@ -35,8 +39,8 @@ export default function Room() {
       appID,
       serverSecret,
       roomID,
-      randomID(5),
-      randomID(5),
+      publicKey?.toString(),
+      userName ? userName : randomID(6),
     );
 
     // Create instance object from Kit Token.
@@ -55,9 +59,18 @@ export default function Room() {
         ZegoUIKitPrebuilt.VideoResolution_480P,
         ZegoUIKitPrebuilt.VideoResolution_720P,
       ],
-      whiteboardConfig: {
-        showAddImageButton: true,
-      },
+      onUserAvatarSetter:async (userList) => {
+          userList.forEach(async user => {
+           let res = await axios.get(`${apiUrl}/get-image-url`, {
+             params: {
+               key: user.userID
+             }
+           })
+           if (res.data.status === 200) {
+             user.setUserAvatar(res.data.img)
+           }
+          })
+      }, 
       sharedLinks: [
         {
           name: "Join link",
@@ -77,21 +90,34 @@ export default function Room() {
   };
 
   const { publicKey } = useWallet();
-  const [isPending, setIsPending] = useState(false);
   const { RoomName } = useParams();
   const [rsvpStatus, setRsvpStatus] = useState(false);
-
+  const checkRoomLink = async () => {
+    let url = window.location.href
+    try {
+      const response = await axios.get(`${apiUrl}/check-roomLink`, {
+        params: {
+          roomLink: url,
+        },
+      });
+      if (response.data.status === 400) {
+        alert("Room does not exist");
+        window.location.href = "/";
+      }
+    } catch (error) {
+      alert(error);
+    }
+  }
   const storePublicKey = async () => {
     const response = await axios.post(`${apiUrl}/nft-apply`, {
       channelName: RoomName,
       publicKey: publicKey?.toString(),
     });
-    console.log(response.data);
     if (response.data.status === 200) {
-      alert("Applied successfully");
+      console.log("Applied successfully");
       setRsvpStatus(true);
     } else {
-      alert("You have already applied");
+      console.log("You have already applied");
       setRsvpStatus(true);
     }
   };
@@ -102,7 +128,6 @@ export default function Room() {
           channelName: RoomName,
           publicKey: publicKey?.toString(),
         });
-        console.log(response.data); // log the server response
         if (response.data.status === 200) {
           storePublicKey();
           // setRsvpStatus(true);
@@ -111,12 +136,17 @@ export default function Room() {
         }
         // setRsvpStatus(true);
       } catch (error) {
-        console.error(error);
+        alert(error);
       }
     }
   };
   useEffect(() => {
-    checkRSVPStatus();
+    if (publicKey) {
+      checkRoomLink();
+      checkRSVPStatus();
+      setDisabled(true);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [publicKey]);
   return (
     <>

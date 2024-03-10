@@ -54,7 +54,7 @@ const Mint = () => {
         setIsPending(false);
       }
     } catch (error) {
-      console.error(error);
+      alert(error);
     }
   };
 
@@ -78,19 +78,18 @@ const Mint = () => {
       );
       await sendSol(publicKey, sendTransaction, connection, participants);
     } catch (error) {
-      console.error(error);
+      alert(error);
     }
   };
 
   const mint = async () => {
-    const response = await axios.post(`${apiUrl}/mint`, {
+    await axios.post(`${apiUrl}/mint`, {
       image,
       name,
       symbol,
       description,
       channelName,
     });
-    console.log(response.data); // log the server response
     await deleteRoom();
     setIsPending(false);
     setMinted(true);
@@ -99,10 +98,9 @@ const Mint = () => {
   };
 
   const deleteRoom = async () => {
-    const response = await axios.post(`${apiUrl}/delete`, {
+    await axios.post(`${apiUrl}/delete`, {
       channelName: channelName,
     });
-    console.log(response.data); // log the server response
   };
 
   const handleSubmit = async (e) => {
@@ -111,7 +109,7 @@ const Mint = () => {
       setIsPending(true);
       checkOwner();
     } catch (error) {
-      console.error(error);
+      alert(error);
     }
   };
 
@@ -131,7 +129,7 @@ const Mint = () => {
             value={image}
             onChange={(e) => setImage(e.target.value)}
             placeholder="Image Link"
-            required
+            // required
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight outline outline-offset4 mt-3 focus:border-purple-500"
           />
 
@@ -141,7 +139,7 @@ const Mint = () => {
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Name"
-            required
+            // required
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-1-purple-500/50 outline outline-offset1 mt-3"
           />
           <input
@@ -150,7 +148,7 @@ const Mint = () => {
             value={symbol}
             onChange={(e) => setSymbol(e.target.value)}
             placeholder="Symbol"
-            required
+            // required
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-1-purple-500/50 outline outline-offset1 mt-3"
           />
           <input
@@ -159,7 +157,7 @@ const Mint = () => {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Description"
-            required
+            // required
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-1-purple-500/50 outline outline-offset1 mt-3"
           />
           <input
@@ -168,7 +166,7 @@ const Mint = () => {
             value={channelName}
             onChange={(e) => setChannelName(e.target.value)}
             placeholder="Channel Name"
-            required
+            // required
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-1-purple-500/50 outline outline-offset1 mt-4"
           />
           {!minted && (

@@ -31,13 +31,11 @@ const RsvpForm = () => {
       publicKey: participantKey,
       channelName: RoomName,
     });
-    console.log(response.data.status);
     if (response.data.status === 400) {
       alert("Already RSVPed");
     } else {
       alert("RSVP submitted successfully");
     }
-    console.log("submitted");
     setIsPending(false);
     navigate("/mint"); // Redirect to the Mint page after RSVP submission
   };

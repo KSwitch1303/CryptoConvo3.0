@@ -3,7 +3,6 @@ import Home from "./Home";
 import Room from "./Room";
 import Navbar from "./components/Navbar";
 import Mint from "./Mint";
-import * as web3 from "@solana/web3.js";
 import {
   ConnectionProvider,
   WalletProvider,
@@ -12,9 +11,12 @@ import {
 import * as walletAdapter from "@solana/wallet-adapter-wallets";
 
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import RsvpForm from "./RsvpForm";
 import CreateRoom from "./CreateRoom";
+import Profile from "./Profile";
+
+import { UserContext } from "./contexts/UserContext";
 
 // const endpoint = web3.clusterApiUrl("devnet");
 const quicknode_rpc = process.env.REACT_APP_ENDPOINT;
@@ -22,6 +24,10 @@ const endpoint = quicknode_rpc;
 // const wallets = [new walletAdapterWallets.PhantomWalletAdapter()];
 
 function App() {
+  const [userName, setUserName] = useState("");
+  const [imgURL, setImgURL] = useState("");
+  const [disabled, setDisabled] = useState(false);
+  const [selectedRoom, setSelectedRoom] = useState("");
   const wallets = useMemo(
     () => [
       new walletAdapter.PhantomWalletAdapter(),
@@ -30,23 +36,26 @@ function App() {
     [],
   );
   return (
-    <ConnectionProvider endpoint={endpoint}>
-      <WalletProvider wallets={wallets}>
-        <WalletModalProvider>
-          <div>
-            {/* Navbar */}
-            <Navbar />
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/create" element={<CreateRoom />} />
-              <Route path="/room/:RoomName" element={<Room />} />
-              <Route path="/mint" element={<Mint />} />
-              <Route path="/rsvp/:RoomName" element={<RsvpForm />} />
-            </Routes>
-          </div>
-        </WalletModalProvider>
-      </WalletProvider>
-    </ConnectionProvider>
+    <UserContext.Provider value={{ userName, setUserName, imgURL, setImgURL, disabled, setDisabled, selectedRoom, setSelectedRoom }}>
+      <ConnectionProvider endpoint={endpoint}>
+        <WalletProvider wallets={wallets}>
+          <WalletModalProvider>
+            <div>
+              {/* Navbar */}
+              <Navbar />
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/create" element={<CreateRoom />} />
+                <Route path="/room/:RoomName" element={<Room />} />
+                <Route path="/mint" element={<Mint />} />
+                <Route path="/rsvp/:RoomName" element={<RsvpForm />} />
+                <Route path="/profile" element={<Profile />} />
+              </Routes>
+            </div>
+          </WalletModalProvider>
+        </WalletProvider>
+      </ConnectionProvider>
+    </UserContext.Provider>
   );
 }
 

@@ -29,9 +29,10 @@ const CreateRoom = () => {
   let tempRoomlink, tempRsvpLink, rnd;
   const submitCode = async (e) => {
     e.preventDefault();
+    setRoomName(roomName.toLocaleLowerCase());
     setIsPending(true);
     let res = await axios.get(
-      `${apiUrl}/collection-exists?channelName=${roomName}`,
+      `${apiUrl}/collection-exists?channelName=${roomName.toLocaleLowerCase()}`,
     );
     if (res.data.collectionExists) {
       alert("A collection with this channel name already exists!");
@@ -39,22 +40,22 @@ const CreateRoom = () => {
       return;
     }
     res = await axios.post(`${apiUrl}/store-password`, {
-      channelName: roomName,
+      channelName: roomName.toLocaleLowerCase(),
       password: roomPassword,
       creator: publicKey?.toString(),
     });
     res = await axios.post(`${apiUrl}/create-db`, {
-      channelName: roomName,
+      channelName: roomName.toLocaleLowerCase(),
     });
     res = await axios.post(`${apiUrl}/store-key`, {
       publicKey: publicKey?.toString(),
-      channelName: roomName,
+      channelName: roomName.toLocaleLowerCase(),
     });
     rnd =randomID(6)
-    setRsvpLink(`${window.location.origin}/rsvp/${roomName}`);
-    setRoomLink(`${window.location.origin}/room/${roomName}?roomID=${rnd}`);
-    tempRsvpLink = `${window.location.origin}/rsvp/${roomName}`
-    tempRoomlink = `${window.location.origin}/room/${roomName}?roomID=${rnd}`;
+    setRsvpLink(`${window.location.origin}/rsvp/${roomName.toLocaleLowerCase()}`);
+    setRoomLink(`${window.location.origin}/room/${roomName.toLocaleLowerCase()}?roomID=${rnd}`);
+    tempRsvpLink = `${window.location.origin}/rsvp/${roomName.toLocaleLowerCase()}`
+    tempRoomlink = `${window.location.origin}/room/${roomName.toLocaleLowerCase()}?roomID=${rnd}`;
     storeRoomLinks();
     setIsPending(false);
     setCreated(true);
@@ -65,7 +66,7 @@ const CreateRoom = () => {
     await axios.post(`${apiUrl}/store-links`, {
       RSVPlink: tempRsvpLink.toString(),
       roomLink: tempRoomlink.toString(),
-      roomName: roomName,
+      roomName: roomName.toLocaleLowerCase(),
       owner: publicKey?.toString(),
     });
   };

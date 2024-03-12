@@ -49,7 +49,7 @@ const Jumbotron = () => {
                 every call into a rewarding experience.
               </p>
               <button
-                className="relative flex items-center justify-center text-white hover:before:bg-purple-500 h-[50px] md:w-60 w-full overflow-hidden border border-gray-700 bg-transparent px-3 text-purple-500 shadow-2xl transition-all rounded-md before:absolute before:bottom-0 before:left-0 before:top-0 before:z-0 before:h-full before:w-0 before:bg-purple-500 before:transition-all before:duration-500 hover:text-white hover:shadow-purple-lg hover:before:left-0 hover:before:w-full"
+                className="shadow-lg shadow-indigo-500/50 relative flex items-center justify-center text-white hover:before:bg-purple-500 h-[50px] md:w-60 w-full overflow-hidden border border-gray-700 bg-transparent px-3 text-purple-500 shadow-2xl transition-all rounded-md before:absolute before:bottom-0 before:left-0 before:top-0 before:z-0 before:h-full before:w-0 before:bg-purple-500 before:transition-all before:duration-500 hover:text-white hover:shadow-purple-lg hover:before:left-0 hover:before:w-full"
                 style={{ margin: "auto" }}
                 onClick={() => navigate("/create")}
               >

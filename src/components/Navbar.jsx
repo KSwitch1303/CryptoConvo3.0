@@ -69,7 +69,7 @@ const Navbar = () => {
     }
   }
   return (
-    <div className="bg-gray-900 shadow-lg sticky top-0 z-50">
+    <div className="bg-gray-900 shadow-lg sticky top-0 z-50 ">
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
         {/* Left */}
         <div className="flex items-center">
@@ -88,30 +88,33 @@ const Navbar = () => {
 
         {/* Right */}
         <div className="flex items-center text-white">
+          <div className="mr-6">
+            <WalletMultiButton disabled={disabled} className="text-sm" />
+          </div>
+          <div className="mr-6">
+            {imgURL ? <button disabled={disabled} onClick={() => navigate("/profile")}><img src={imgURL} alt="profile" className="h-10 w-10 rounded-full cursor-pointer hover:scale-125 transition" /></button> : (
+              <button disabled={disabled} className="hover:text-purple-400 text-lg font-medium transition" onClick={() => navigate("/profile")}>Create Profile</button>
+            )}
+          </div>
           {disabled && (
             <button className="border border-gray-500 hover:bg-red-600 hover:text-black text-lg font-medium transition p-2 rounded" onClick={() => window.location.href = "/"}>Leave Call</button>
           )}
           {location.pathname === "/create" ? (
             <button
               onClick={handleButtonClick}
-              className="hover:text-purple-400 text-lg font-medium"
+              className="hover:text-purple-400 text-lg font-medium transition ml-6"
               disabled={disabled}
             >
               Mint
             </button>
           ) : (
-            <button disabled={disabled} className="hover:text-purple-400 text-lg font-medium transition p-3" onClick={() => navigate('/create')}>
+            <button disabled={disabled} className="hover:text-purple-400 text-lg font-medium transition ml-6" onClick={() => navigate('/create')}>
               Host
             </button>
           )}
-          <div className="ml-4">
-            <WalletMultiButton disabled={disabled} className="text-sm" />
-          </div>
-          {imgURL ? <button disabled={disabled} onClick={() => navigate("/profile")}><img src={imgURL} alt="profile" className="h-10 w-10 rounded-full ml-4 cursor-pointer hover:scale-125 transition" /></button> : (
-            <button disabled={disabled} className="hover:text-purple-400 text-lg font-medium transition" onClick={() => navigate("/profile")}>Create Profile</button>
-          )}
         </div>
       </div>
+      <div className="bg-gray-900 shadow-lg h-1 w-full"></div>
     </div>
   );
 };

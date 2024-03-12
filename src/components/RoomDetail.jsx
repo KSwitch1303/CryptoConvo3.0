@@ -13,13 +13,16 @@ const RoomDetail = () => {
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    if (selectedRoom) {
-      setIsPending(true);
-      getRoomLinks();
-      getParticipants();
-      getRSVPs();
-      setIsPending(false);
+    const fetchData = async () => {
+      if (selectedRoom) {
+        setIsPending(true);
+        await getRoomLinks();
+        await getParticipants();
+        await getRSVPs();
+        setIsPending(false);
+      }
     }
+    fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedRoom]);
 

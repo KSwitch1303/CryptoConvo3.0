@@ -18,10 +18,8 @@ import Profile from "./Profile";
 
 import { UserContext } from "./contexts/UserContext";
 
-// const endpoint = web3.clusterApiUrl("devnet");
 const quicknode_rpc = process.env.REACT_APP_ENDPOINT;
 const endpoint = quicknode_rpc;
-// const wallets = [new walletAdapterWallets.PhantomWalletAdapter()];
 
 function App() {
   const [userName, setUserName] = useState("");

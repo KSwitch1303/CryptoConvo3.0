@@ -37,7 +37,7 @@ const RsvpForm = () => {
       alert("RSVP submitted successfully");
     }
     setIsPending(false);
-    navigate("/mint"); // Redirect to the Mint page after RSVP submission
+    navigate("/");
   };
 
   useEffect(() => {

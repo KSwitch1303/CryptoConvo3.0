@@ -33,8 +33,8 @@ export default function Room() {
   const {userName, setDisabled} = useContext(UserContext);
   let myMeeting = async (element) => {
     // generate Kit Token
-    const appID = 1427065858;
-    const serverSecret = "ffaf9908b85b463213965172fba9d42e";
+    const appID = 1382357486;
+    const serverSecret = "179049a1952d2566b5cb016109615389";
     const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
       appID,
       serverSecret,

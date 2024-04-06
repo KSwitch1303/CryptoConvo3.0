@@ -18,6 +18,7 @@ function randomID(len) {
 
 const CreateRoom = () => {
   const [roomName, setRoomName] = useState("");
+  const [date, setDate] = useState(new Date());
   const [roomPassword, setRoomPassword] = useState("");
   const [isPending, setIsPending] = useState(false);
   const { publicKey } = useWallet();
@@ -27,6 +28,19 @@ const CreateRoom = () => {
   const [rsvpLink, setRsvpLink] = useState("");
   const [roomLink, setRoomLink] = useState("");
   let tempRoomlink, tempRsvpLink, rnd;
+
+  const handleDateChange = (e) => {
+    const selectedDate = new Date(e.target.value);
+    const currentDate = new Date();
+
+    if (selectedDate < currentDate) {
+      // Reset the date to the current date
+      setDate(currentDate.toISOString().slice(0, 16));
+    } else {
+      setDate(e.target.value);
+    }
+  };
+
   const submitCode = async (e) => {
     e.preventDefault();
     setRoomName(roomName.toLocaleLowerCase());
@@ -99,6 +113,28 @@ const CreateRoom = () => {
                     value={roomName}
                     disabled={isPending}
                     onChange={(e) => setRoomName(e.target.value)}
+                    required
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label
+                  htmlFor="room-name"
+                  className="block text-gray-300 text-sm font-bold mb-2 mt-4"
+                >
+                  Schedule Date
+                </label>
+                <div className="mt-1 relative rounded-md shadow-sm">
+                  <input
+                    id="room-name"
+                    name="room-name"
+                    type="datetime-local"
+                    autoComplete="room-name"
+                    value={date}
+                    disabled={isPending}
+                    onChange={handleDateChange}
                     required
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   />

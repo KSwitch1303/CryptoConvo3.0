@@ -1,5 +1,6 @@
 import CreateProfile from "./components/CreateProfile";
 import { useEffect, useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { useWallet } from "@solana/wallet-adapter-react";
 import axios from "axios";
 import { UserContext } from "./contexts/UserContext";
@@ -13,6 +14,7 @@ const Profile = () => {
   const [isPending, setIsPending] = useState(true);
   const [exists, setExists] = useState(false);
   const { userName, setUserName, setImgURL } = useContext(UserContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!publicKey) return;
@@ -51,7 +53,9 @@ const Profile = () => {
       alert(error);
     }
   };
-
+  const editUser = () => {
+    navigate("/edit");
+  }
   return (
     <div className="min-h-screen bg-gray-900">
       {isPending ? (
@@ -61,7 +65,7 @@ const Profile = () => {
         </div>
       ) : exists ? (
         <>
-        <p className="text-3xl font-extrabold text-white flex flex-col items-center justify-center p-10">Welcome {userName}</p>
+        <p className="text-3xl font-extrabold text-white flex   items-center justify-center p-10">Welcome &nbsp; <button onClick={editUser}>{userName}</button></p>
         <div className="flex flex-col md:flex-row">
           <div className="w-full md:w-1/4 bg-gray-800 p-4 rounded-lg mb-4 md:mb-0 ml-4">
             <div className="flex items-center text-white text-center mb-6">

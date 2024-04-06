@@ -17,6 +17,7 @@ import CreateRoom from "./CreateRoom";
 import Profile from "./Profile";
 
 import { UserContext } from "./contexts/UserContext";
+import EditProfile from "./components/EditProfile";
 
 const quicknode_rpc = process.env.REACT_APP_ENDPOINT;
 const endpoint = quicknode_rpc;
@@ -48,6 +49,7 @@ function App() {
                 <Route path="/mint" element={<Mint />} />
                 <Route path="/rsvp/:RoomName" element={<RsvpForm />} />
                 <Route path="/profile" element={<Profile />} />
+                <Route path="/edit" element={<EditProfile />} />
               </Routes>
             </div>
           </WalletModalProvider>

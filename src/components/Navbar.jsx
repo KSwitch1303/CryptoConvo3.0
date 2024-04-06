@@ -4,6 +4,7 @@ import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import "@solana/wallet-adapter-react-ui/styles.css";
 import { useEffect, useState, useContext } from "react";
 import * as wallet from "@solana/wallet-adapter-react";
+import { useConnection } from "@solana/wallet-adapter-react";
 import { UserContext } from "../contexts/UserContext";
 import axios from "axios";
 
@@ -13,8 +14,8 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [connected, setConnected] = useState(false);
+  const { connection } = useConnection();
   const {setUserName, imgURL, setImgURL, disabled} = useContext(UserContext);
-
   const handleButtonClick = () => {
     if (location.pathname === "/create") {
       navigate("/mint");
@@ -89,7 +90,7 @@ const Navbar = () => {
         {/* Right */}
         <div className="flex items-center text-white">
           <div className="mr-6">
-            <WalletMultiButton disabled={disabled} className="text-sm" />
+            <WalletMultiButton id="wallet" disabled={disabled} className="text-sm" />
           </div>
           <div className="mr-6">
             {imgURL ? <button disabled={disabled} onClick={() => navigate("/profile")}><img src={imgURL} alt="profile" className="h-10 w-10 rounded-full cursor-pointer hover:scale-125 transition" /></button> : (

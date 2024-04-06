@@ -8,6 +8,7 @@ const apiUrl = process.env.REACT_APP_API_URL;
 const CreateProfile = () => {
   const [userName, setUserName] = useState("");
   const [imgURL, setImgURL] = useState("");
+  const [email, setEmail] = useState("");
   const [isPending, setIsPending] = useState(false);
   const { publicKey } = useWallet();
 
@@ -40,6 +41,7 @@ const CreateProfile = () => {
         key: publicKey?.toString(),
         username: userName,
         imageurl: imgURL,
+        email
       });
       alert("Profile created successfully");
       setIsPending(false);
@@ -80,6 +82,27 @@ const CreateProfile = () => {
           </div>
           <div>
             <label
+              htmlFor="email"
+              className="block text-gray-300 text-sm font-bold mb-2 mt-4"
+            >
+              Email
+            </label>
+            <div className="mt-1 relative rounded-md shadow-sm">
+              <input
+                id="email"
+                name="email"
+                type="text"
+                autoComplete="email"
+                value={email}
+                disabled={isPending}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              />
+            </div>
+          </div>
+          <div>
+            <label
               htmlFor="user-image"
               className="block text-gray-300 text-sm font-bold mb-2 mt-4"
             >
@@ -94,7 +117,6 @@ const CreateProfile = () => {
                 value={imgURL}
                 disabled={isPending}
                 onChange={(e) => setImgURL(e.target.value)}
-                required
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               />
             </div>

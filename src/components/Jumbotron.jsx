@@ -22,7 +22,7 @@ const Jumbotron = () => {
   }, []); // Run effect only once on component mount
 
   return (
-    <div className="bg-gradient-to-br from-gray-900 to-gray-800 py-12 md:py-20">
+    <div className="bg-gradient-to-br from-gray-900 to-gray-800 py-12 md:py-20 min-h-screen">
       <div className="container mx-auto px-4">
         {isVisible && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center justify-center">

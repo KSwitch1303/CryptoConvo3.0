@@ -119,7 +119,7 @@ const CreateRoom = () => {
                 </div>
               </div>
 
-              <div>
+              {/* <div>
                 <label
                   htmlFor="room-name"
                   className="block text-gray-300 text-sm font-bold mb-2 mt-4"
@@ -139,7 +139,7 @@ const CreateRoom = () => {
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   />
                 </div>
-              </div>
+              </div> */}
 
               <div>
                 <label

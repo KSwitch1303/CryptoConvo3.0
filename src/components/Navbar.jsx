@@ -14,6 +14,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [connected, setConnected] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { connection } = useConnection();
   const {setUserName, imgURL, setImgURL, disabled} = useContext(UserContext);
   const handleButtonClick = () => {
@@ -69,8 +70,9 @@ const Navbar = () => {
       alert(error);
     }
   }
+
   return (
-    <div className="bg-gray-900 shadow-lg sticky top-0 z-50 ">
+    <div className="bg-gray-900 shadow-lg sticky top-0 z-50">
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
         {/* Left */}
         <div className="flex items-center">
@@ -88,7 +90,7 @@ const Navbar = () => {
         </div>
 
         {/* Right */}
-        <div className="flex items-center text-white">
+        <div className="hidden md:flex items-center text-white">
           <div className="mr-6">
             <WalletMultiButton id="wallet" disabled={disabled} className="text-sm" />
           </div>
@@ -114,8 +116,64 @@ const Navbar = () => {
             </button>
           )}
         </div>
+
+        {/* Mobile Menu Button */}
+        <div className="md:hidden flex items-center">
+        <div className="px-4 py-2">
+            <WalletMultiButton id="wallet" disabled={disabled} className="text-sm w-full" />
+          </div>
+          {imgURL ? <button disabled={disabled} onClick={() => navigate("/profile")}><img src={imgURL} alt="profile" className="h-10 w-10 rounded-full cursor-pointer hover:scale-125 transition mx-2 " /></button> : (
+              null
+            )}
+          <button
+            className="text-white"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            {isMenuOpen ? (
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+            ) : (
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+              </svg>
+            )}
+          </button>
+          
+        </div>
       </div>
-      <div className="bg-gray-900 shadow-lg h-1 w-full"></div>
+
+      {/* Mobile Menu Dropdown */}
+      {isMenuOpen && (
+        <div className="md:hidden bg-gray-900 flex flex-col text-white items-center">
+          
+          <div className="px-4 py-2">
+            {imgURL ? null: (
+              <button disabled={disabled} className="hover:text-purple-400 text-lg font-medium transition w-full text-left" onClick={() => navigate("/profile")}>Create Profile</button>
+            )}
+          </div>
+          {disabled && (
+            <div className="px-4 py-2">
+              <button className="border border-gray-500 hover:bg-red-600 hover:text-black text-lg font-medium transition p-2 rounded w-full" onClick={() => window.location.href = "/"}>Leave Call</button>
+            </div>
+          )}
+          <div className="px-4 py-2">
+            {location.pathname === "/create" ? (
+              <button
+                onClick={handleButtonClick}
+                className="hover:text-purple-400 text-lg font-medium transition w-full text-left"
+                disabled={disabled}
+              >
+                Mint
+              </button>
+            ) : (
+              <button disabled={disabled} className="hover:text-purple-400 text-lg font-medium transition w-full text-left" onClick={() => navigate('/create')}>
+                Host
+              </button>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
